@@ -12,6 +12,7 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [currSlot, setCurrSlot] = useState('')
+	const [dateOfBirth, setDateOfBirth] = useState()
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [message, setMessage] = useState(null)
 
@@ -41,6 +42,7 @@ const RegisterScreen = () => {
 			dispatch(register(
 				name, 
 				email, 
+				dateOfBirth,
 				password,
 				currSlot
 			))
@@ -89,6 +91,16 @@ const RegisterScreen = () => {
 						<option key={'8-9AM'} value={'8-9AM'}>{'8-9AM'}</option>
 						<option key={'5-6PM'} value={'5-6PM'}>{'5-6PM'}</option>
 				</Form.Control>
+			</Form.Group>
+
+			<Form.Group className='my-2' controlId='dateOfBirth'>
+				<Form.Label>Date Of Birth</Form.Label>
+				<Form.Control
+					type='date'
+					placeholder='Enter date'
+					value={dateOfBirth}
+					onChange={(e) => setDateOfBirth(e.target.value)}
+				></Form.Control>
 			</Form.Group>
 
 			<Form.Group className='my-2' controlId='password'>

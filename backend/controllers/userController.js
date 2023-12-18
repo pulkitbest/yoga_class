@@ -18,6 +18,7 @@ const authUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            dateOfBirth: user.dateOfBirth,
             currSlot: user.currSlot,
             nextSlot: user.nextSlot,
             paymentStatus: user.paymentStatus,
@@ -33,7 +34,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, currSlot } = req.body;
+    const { name, email, dateOfBirth, password, currSlot } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -42,9 +43,19 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists');
     }
 
+    const today = new Date()
+    const birthDate = new Date(dateOfBirth)
+    const age = today.getFullYear() - birthDate.getFullYear()
+
+    if(age < 18 || age > 65){
+        res.status(400)
+        throw new Error('Age must be between 18 and 65')
+    }
+
     const user = await User.create({
         name,
         email,
+        dateOfBirth,
         password,
         currSlot
     });
@@ -56,6 +67,7 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            dateOfBirth: user.dateOfBirth,
             currSlot: user.currSlot,
             nextSlot: user.nextSlot,
             paymentStatus: user.paymentStatus,
@@ -116,6 +128,7 @@ const updateUser = asyncHandler(async (req, res) => {
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
+            dateOfBirth: updatedUser.dateOfBirth,
             currSlot: updatedUser.currSlot,
             nextSlot: updatedUser.nextSlot,
             paymentStatus: updatedUser.paymentStatus,

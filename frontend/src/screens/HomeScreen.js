@@ -10,6 +10,7 @@ import {update} from '../actions/userActions'
 const HomeScreen = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
+	const [dateOfBirth, setDateOfBirth] = useState('')
 	const [currSlot, setCurrSlot] = useState('')
 	const [nextSlot, setNextSlot] = useState('')
 	const [paymentStatus, setPaymentStatus] = useState(false)
@@ -28,6 +29,7 @@ const HomeScreen = () => {
         } else {
 			setName(userInfo.name)
 			setEmail(userInfo.email)
+			setDateOfBirth(userInfo.dateOfBirth)
 			setCurrSlot(userInfo.currSlot)
 			setNextSlot(userInfo.nextSlot)
 			setPaymentStatus(userInfo.paymentStatus)
@@ -41,6 +43,12 @@ const HomeScreen = () => {
 
 	const paymentHandler = () => {
 		dispatch(update(nextSlot, true))
+	}
+
+	const formatDate = (dateString) => {
+		const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+		const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+		return formattedDate;
 	}
 
     return (
@@ -66,6 +74,16 @@ const HomeScreen = () => {
 						</Col>
 						<Col>
 							{email}
+						</Col>
+					</Row>
+				</ListGroup.Item>
+				<ListGroup.Item>
+					<Row>	
+						<Col>
+							<b>Date of Birth:</b>
+						</Col>
+						<Col>
+							{formatDate(dateOfBirth)}
 						</Col>
 					</Row>
 				</ListGroup.Item>
